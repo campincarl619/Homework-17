@@ -55,47 +55,42 @@ d3.json(quakesUrl, function(data) {
 	        		weight: 1.5
 	      		};
 	    	},
-		}).addTo(myMap);
+		})
 
-	console.log(faultLines);
-	});
+	  	var streetMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?" +
+	  	"access_token=pk.eyJ1Ijoiam9zaG5lYWw2MTkiLCJhIjoiY2plNmh3YWZjMDBpNzJxcWt3emhsNmtlMyJ9.LfHfkdb2TgA8ibhxuEsPNQ");
 
+	  	var darkmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/256/{z}/{x}/{y}?" +
+	    "access_token=pk.eyJ1Ijoiam9zaG5lYWw2MTkiLCJhIjoiY2plNmh3YWZjMDBpNzJxcWt3emhsNmtlMyJ9.LfHfkdb2TgA8ibhxuEsPNQ");
 
-  var streetMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?" +
-  "access_token=pk.eyJ1Ijoiam9zaG5lYWw2MTkiLCJhIjoiY2plNmh3YWZjMDBpNzJxcWt3emhsNmtlMyJ9.LfHfkdb2TgA8ibhxuEsPNQ");
+	  	var sattelite = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/256/{z}/{x}/{y}?"+
+	    "access_token=pk.eyJ1Ijoiam9zaG5lYWw2MTkiLCJhIjoiY2plNmkxdDZyMDBrYTJxcDh3bHp3cTk1cyJ9.R1dkuJ_Jd1KB8YEZmeCNIg");
 
-  var darkmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/256/{z}/{x}/{y}?" +
-    "access_token=pk.eyJ1Ijoiam9zaG5lYWw2MTkiLCJhIjoiY2plNmh3YWZjMDBpNzJxcWt3emhsNmtlMyJ9.LfHfkdb2TgA8ibhxuEsPNQ");
+	  
+	  	var earthquakeLayer = L.layerGroup(earthquakes);
 
-  var sattelite = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/256/{z}/{x}/{y}?"+
-    "access_token=pk.eyJ1Ijoiam9zaG5lYWw2MTkiLCJhIjoiY2plNmkxdDZyMDBrYTJxcDh3bHp3cTk1cyJ9.R1dkuJ_Jd1KB8YEZmeCNIg");
+	  	var baseMaps = {
+	    	"Street Map": streetMap,
+	    	"Dark Map": darkmap,
+	    	"Sattelite": sattelite
+	  	};
 
-  
-  var earthquakeLayer = L.layerGroup(earthquakes);
-  console.log(earthquakeLayer);
-  var faultLayer = L.layerGroup(faultLines);
-  console.log(faultLayer);
+	  	var overlayMaps = {
+		    "Earthquakes": earthquakeLayer,
+		    "Fault Lines": faultLines
+	  	};
 
-  var baseMaps = {
-      "Street Map": streetMap,
-      "Dark Map": darkmap,
-      "Sattelite": sattelite
-  };
+	  	var myMap = L.map("map", {
+	    	center: [37.09, -95.71],
+		    zoom: 4,
+		    layers: [streetMap, darkmap, sattelite,earthquakeLayer,faultLines]
+	  	});
 
-  var overlayMaps = {
-    "Earthquakes": earthquakeLayer,
-    "Fault Lines": faultLayer
-  };
+	  	L.control.layers(baseMaps, overlayMaps, {
+	    	collapsed: false
+	  	}).addTo(myMap);
 
-  var myMap = L.map("map", {
-    center: [37.09, -95.71],
-    zoom: 4,
-    layers: [streetMap, darkmap, sattelite,earthquakeLayer,faultLayer]
-  });
-
-  L.control.layers(baseMaps, overlayMaps, {
-      collapsed: false
-  }).addTo(myMap);
+  	});
 
 });
 
