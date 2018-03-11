@@ -39,7 +39,7 @@ d3.json(quakesUrl, function(data) {
 	        	color: magColor,
 	        	fillColor: magColor,
 	        	radius: magSize
-	      	}).bindPopup(	"<h2>Epicenter:</h2>" + data.features[i].properties.place +"<h4>Timestamp:</h4>" +timeConvert(data.features[i].properties.time) + "<hr><h4>Magnitude:</h4>"+mag)
+	      	}).bindPopup("<h2>Epicenter:</h2>" + data.features[i].properties.place +"<h4>Timestamp:</h4>" +timeConvert(data.features[i].properties.time) + "<hr><h4>Magnitude:</h4>"+mag)
 	    )
 
 	}
@@ -83,12 +83,14 @@ d3.json(quakesUrl, function(data) {
 	  	var myMap = L.map("map", {
 	    	center: [37.09, -95.71],
 		    zoom: 4,
-		    layers: [streetMap, darkmap, sattelite,earthquakeLayer,faultLines]
+		    layers: [streetMap, darkmap, sattelite,faultLines]
 	  	});
 
 	  	L.control.layers(baseMaps, overlayMaps, {
 	    	collapsed: false
 	  	}).addTo(myMap);
+
+	  	earthquakeLayer.addTo(myMap);
 
   	});
 
